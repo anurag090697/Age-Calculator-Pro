@@ -3,34 +3,172 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Age calculator Pro</title>
+    <style>
+      body {
+        background-image: url(agee.png);
+        background-size: cover;
+        font-family: "Montserrat", sans-serif;
+      }
+      #box {
+        background: linear-gradient(
+          to right,
+          rgb(79, 148, 186),
+          rgb(90, 223, 170),
+          rgb(160, 154, 180),
+          rgb(186, 219, 138),
+          rgb(207, 141, 141),
+          rgb(232, 183, 134)
+        );
+        animation: gradientBox 3s ease infinite;
+        background-size: 400% 400%;
+        text-align: center;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        width: 30%;
+        margin: 3rem auto 0;
+        padding: 1% 2%;
+        border-radius: 8px;
+      }
+      @keyframes gradientBox {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      #button {
+        margin: 6%;
+        color: rgb(4, 118, 199);
+        background-color: #ffffff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        font-weight: 700;
+      }
+      #button:hover {
+        cursor: pointer;
+        background-color: #0057b5;
+        color: #ffffff;
+      }
+      #bday {
+        width: 50%;
+        height: 35px;
+        border: 1px solid rgb(192, 184, 184);
+        border-radius: 5px;
+        padding: 10px;
+        font-weight: 600;
+        outline-color: rgb(79, 191, 201);
+      }
+      #result {
+        /* width: 30%; */
+
+        display: flex;
+        text-align: center;
+        justify-content: center;
+      }
+      #result h1 {
+        color: #ffffff;
+      }
+      .resultBox {
+        background: linear-gradient(
+          120deg,
+          rgb(197, 197, 197),
+          rgb(145, 151, 141),
+          rgb(119, 119, 119),
+          rgb(28, 28, 28)
+        );
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+
+        padding: 1%;
+        margin: 80px;
+        color: #ffffff;
+      }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
   </head>
   <body>
-    <h1>HTML Project with iframes</h1>
-    <div>
-      <h2>Local Content</h2>
-      <iframe src="Untitled-1.html" frameborder="1"></iframe>
+    <div id="container">
+      <div id="box">
+        <input type="date" id="bday" />
+        <button id="button">Calculate Age</button>
+      </div>
+      <div id="result">
+        <div class="resultBox">
+          <h1 id="year">-</h1>
+          <p id="yS">Years</p>
+        </div>
+        <div class="resultBox">
+          <h1 id="month">-</h1>
+          <p id="mS">Months</p>
+        </div>
+        <div class="resultBox">
+          <h1 id="day">-</h1>
+          <p id="dS">Days</p>
+        </div>
+      </div>
     </div>
-    <div>
-      <h2>External Website</h2>
-      <iframe
-        src="https://supercell.com/en/"
-        frameborder="1"
-        width="560"
-        height="315"
-      ></iframe>
-    </div>
-    <div>
-      <h2>Youtube Video</h2>
-      <iframe
-        width="560"
-        height="315"
-        src="https://www.youtube.com/embed/uJMCNJP2ipI"
-        title="Deadpool &amp; Wolverine | Official Teaser | In Theaters July 26"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-      ></iframe>
-    </div>
+    <script>
+      let dob = document.getElementById("bday");
+      let btn = document.getElementById("button");
+      let ageY = document.getElementById("year");
+      let ageM = document.getElementById("month");
+      let ageD = document.getElementById("day");
+
+      btn.addEventListener("click", () => {
+        let num = dob.value;
+        if (num === "") {
+          alert("Enter a valid date");
+        }
+
+        let diff = new Date() - new Date(num);
+        let miliSec = diff / (365.25 * 24 * 60 * 60 * 1000);
+
+        let years = parseInt(miliSec);
+        let yrMn = (miliSec - years) * 12;
+        let months = parseInt(yrMn);
+        let days = Math.round(((yrMn - months) * 365.25) / 12);
+        // console.log(miliSec, years, months, days);
+        if (years < 0 || months < 0 || days < 0) {
+          alert("Go back to the future -BAKA-");
+        }
+        ageD.innerText = days;
+        ageM.innerText = months;
+        ageY.innerText = years;
+        if (years < 2) {
+          let ys = document.getElementById("yS");
+          ys.innerText = "Year";
+        }
+        if (months < 2) {
+          let ms = document.getElementById("mS");
+          ms.innerText = "Month";
+        }
+        if (days < 2) {
+          let ds = document.getElementById("dS");
+          ds.innerText = "Day";
+        }
+        if (years <= 6) {
+          alert(`Go take a nap 👶`);
+        } else if (years <= 16) {
+          alert(`Stay away from mobile 🤳`);
+        } else if (years <= 28) {
+          alert(`You'll get old soon 👨‍🦳`);
+        } else if (years <= 40) {
+          alert(`why are you still alive??? 👴`);
+        } else {
+          alert(`You are practically dead ☠️`);
+        }
+      });
+    </script>
   </body>
 </html>
